@@ -5,6 +5,8 @@
 
 （1）Create and initialize acatkin_ws
 
-$ mkdir -p /home/workspace/catkin_ws/src
-$ cd /home/workspace/catkin_ws/src
-$ catkin_init_workspace
+  $ mkdir -p /home/workspace/catkin_ws/src
+  
+  $ cd /home/workspace/catkin_ws/src
+  
+  $ catkin_init_workspace
