@@ -337,3 +337,109 @@ $ catkin_make
 $ source devel/setup.bash
 $ roslaunch my_robot world.launch
 ```
+
+### Robot Sensors
+1. Add a Camera
+
+First, add the camera link and a corresponding joint. Open themy_robot.xacrofile and add a camera sensor based on the following specifications:
+
+```
+<!--Link (camera)-->
+  <link name='camera'>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <box_inertia m="0.1" x="0.05" y="0.05" z="0.05"/>
+      <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"
+      />
+    </inertial>
+
+    <visual name='camera_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size=".05 .05 .05"/>
+      </geometry>
+    </visual>
+
+    <collision name='camera_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size=".05 .05 .05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!--Joint (camera)-->
+  <joint type="fixed" name="camera_joint">
+    <origin xyz="0.225 0 0" rpy="0 0 0"/>
+    <child link="camera"/>
+    <parent link="chassis"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  ```
+  
+2. Add a Lidar
+
+The Hokuyo sensor can be added to your robot model just like the camera sensor, except that you first need to add a mesh file to your robot model. Mesh files define the shape of the object or model you are working with. There are some basic shapes, like the box or cylinder, that do not require a mesh file. However, for more advanced designs, mesh files are necessary. The mesh file should be located in a directory calledmeshesthat you can create in your package folder,my_robot.
+
+（1）Createmeshesdirectory
+
+```
+$ cd /home/workspace/catkin_ws/src/my_robot/
+$ mkdir meshes
+```
+
+（2）now, download thishokuyo.daefile and place it under themeshesdirectory you just created.
+
+（3）Add the Hokuyo sensor tomy_robot.xacro
+
+```
+<!--Links (hokuyo)-->
+  <link name='hokuyo'>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-5"/>
+      <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"
+      />
+    </inertial>
+
+    <visual name='hokuyo_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://my_robot/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <collision name='hokuyo_collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size=".1 .1 .1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!--Joint (hokuyo)-->
+  <joint type="fixed" name="hokuyo_joint">
+    <origin xyz="0.175 0 .085" rpy="0 0 0"/>
+    <child link="hokuyo"/>
+    <parent link="chassis"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  ```
+  
+3. Launch
+
+```
+$ cd /home/workspace/catkin_ws/
+$ source devel/setup.bash
+$ roslaunch my_robot world.launch
+```
+
+Now, let's see what your model looks like!
+![image](https://user-images.githubusercontent.com/54982873/211188070-960ec5b1-cae0-44c3-bf78-abdae0cb2500.png)
