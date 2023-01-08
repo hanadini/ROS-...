@@ -1,4 +1,7 @@
 # Chase_ball
+
+![demo](https://user-images.githubusercontent.com/54982873/211189309-9cfc9164-1d02-4022-8299-cb2a36fb7da3.gif)
+
 ### Setting up my_robot
 
 1. Create the my_robot Package
@@ -441,9 +444,6 @@ $ source devel/setup.bash
 $ roslaunch my_robot world.launch
 ```
 
-Now, let's see what your model looks like!
-![image](https://user-images.githubusercontent.com/54982873/211188070-960ec5b1-cae0-44c3-bf78-abdae0cb2500.png)
-
 ### Gazebo Plugins
 Gazebo allows for plugins that implement specific use-cases.
 
@@ -740,6 +740,7 @@ As you can see, my robot’s initial position is outside of my world! You might 
   ```
   
 ### Setting up ball_chaser
+	
 1. Package Nodes
 The ball_chaser package will have two C++ nodes: the drive_bot and process_image
 
@@ -890,54 +891,72 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 ################################################
-## Declare ROS messages, services and actions ##
+	
+ #### Declare ROS messages, services and actions 
+	
 ################################################
-## Generate services in the 'srv' folder
+	
+#### Generate services in the 'srv' folder
+
+	```
 add_service_files(
    FILES
    DriveToTarget.srv
 )
-## Generate added messages and services with any dependencies listed here
+	```
+#### Generate added messages and services with any dependencies listed here
+	```
 generate_messages(
    DEPENDENCIES
    std_msgs
 )
+	```
 ###################################
-## catkin specific configuration ##
+	
+#### catkin specific configuration
+	
 ###################################
+	
+	```
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ball_chaser
 #  CATKIN_DEPENDS message_generation roscpp std_msgs
 #  DEPENDS system_lib
 )
+	```
 ###########
-## Build ##
+	
+#### Build 
+	
 ###########
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-  
-include_directories(
+	
+#### Specify additional locations of header files
+#### The package locations should be listed before other locations
   ```
+	
+include_directories(
+  
 # include
   
   ${catkin_INCLUDE_DIRS}
 )
   ```
   
-## Declare a C++ executable
+#### Declare a C++ executable
  
   ```
 add_executable(drive_bot src/drive_bot.cpp)
 ```
   
-## Add cmake target dependencies of the executable
+#### Add cmake target dependencies of the executable
   
 ```  
 add_dependencies(drive_bot ball_chaser_generate_messages_cpp)
 ```
   
-## Specify libraries to link a library or executable target against
+#### Specify libraries to link a library or executable target against
+	
  ``` 
 target_link_libraries(drive_bot ${catkin_LIBRARIES})
  ```
