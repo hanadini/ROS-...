@@ -1187,8 +1187,6 @@ $ cd /home/workspace/catkin_ws/
 $ source devel/setup.bash
 $ rosrun rqt_image_view rqt_image_view
   ```
-  
-  
 ![image](https://user-images.githubusercontent.com/54982873/211188781-8a0e1234-c54e-4558-9863-03b86735e2b6.png)
 
   
