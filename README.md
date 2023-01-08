@@ -9,14 +9,16 @@
   $ mkdir -p /home/workspace/catkin_ws/src
   $ cd /home/workspace/catkin_ws/src
   $ catkin_init_workspace
-  
 ```
 （2）Navigate to thesrcdirectory of yourcatkin_wsand create themy_robotpackage:
+
 ```
 $ cd /home/workspace/catkin_ws/src/
 $ catkin_create_pkg my_robot
 ```
+
 （3）Next, create aworldsdirectory and alaunchdirectory, that will further define the structure of your package:
+
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/
 $ mkdir launch
@@ -25,28 +27,37 @@ $ mkdir worlds
 2. Create and Store an Empty Gazebo World File
 
 （1）Create an empty Gazebo world
+
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/worlds/
 $ touch empty.world
 ```
+
 （2）Add the following toempty.world
+
 ```
 <?xml version="1.0" ?>
+```
 
 ### Robot Basic Setup
 1. Create the URDF File
 
 （1）Create aurdfdirectory in themy_robotpackage
+
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/
 $ mkdir urdf
 ```
+
 （2）Create the robot’sxacrofile inside theurdfdirectory
+
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/urdf/
 $ touch my_robot.xacro
 ```
+
 （3）Copy the following code intomy_robot.xacrofile
+
 ```
 <?xml version='1.0'?>
 
@@ -120,14 +131,18 @@ $ touch my_robot.xacro
 
 </robot>
 ```
+
 2. Launch the Robot
 
 （1）Create a new launch file to load theURDFmodel file
+
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/launch/
 $ touch robot_description.launch
 ```
+
 （2）Copy the following code intorobot_description.launchfile
+
 ```
 <?xml version="1.0"?>
 <launch>
@@ -137,9 +152,11 @@ $ touch robot_description.launch
 
 </launch>
 ```
+
 To generate the URDF file from the Xacro file, you must first define a parameter,robot_description. This parameter will set a single command to use the xacro packageto generate the URDF from the xacro file.
 
 （3）Update the world.launch file created earlier so that Gazebo can load the robot URDF model
+
 ```
 <!-- Robot pose -->
   <arg name="x" default="0"/>
@@ -152,7 +169,9 @@ To generate the URDF file from the Xacro file, you must first define a parameter
   <!-- Launch other relevant files-->
   <include file="$(find my_robot)/launch/robot_description.launch"/>
   ```
+  
 Add the following to the launch file (before</launch>):
+
 ```
 <!-- Find my robot Description-->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot)/urdf/my_robot.xacro'"/>
@@ -162,8 +181,10 @@ Add the following to the launch file (before</launch>):
         args="-urdf -param robot_description -model my_robot 
               -x $(arg x) -y $(arg y) -z $(arg z)
               -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
- ```             
+ ``` 
+ 
 （4）Launch
+
 ```
 $ cd /home/workspace/catkin_ws/
 $ catkin_make
@@ -173,6 +194,7 @@ $ roslaunch my_robot world.launch
 
 ### Robot Enhancement
 1. Create Wheel Links
+
 ```
 <!--Link (left_wheel)-->  
   <link name='left_wheel'>    
@@ -229,7 +251,9 @@ $ roslaunch my_robot world.launch
     
   </link>
   ```
+  
 2. Create Joints for the two wheels
+
 ```
 <!--Joint (left_wheel_hinge)-->
   <joint name="left_wheel_hinge" type="continuous">
@@ -274,14 +298,18 @@ $ roslaunch my_robot world.launch
   </world>
 </sdf>
 ```
+
 3. Create a Launch File
 
 （1）Create theworld.launchfile
+
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/launch/
 $ touch world.launch
 ```
+
 （2）Add the following toworld.launch
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -300,7 +328,9 @@ $ touch world.launch
 
 </launch>
 ```
+
 4. Launch empty.world
+
 ```
 $ cd /home/workspace/catkin_ws/
 $ catkin_make
