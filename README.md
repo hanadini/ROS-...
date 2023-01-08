@@ -388,7 +388,7 @@ First, add the camera link and a corresponding joint. Open themy_robot.xacrofile
 
 The Hokuyo sensor can be added to your robot model just like the camera sensor, except that you first need to add a mesh file to your robot model. Mesh files define the shape of the object or model you are working with. There are some basic shapes, like the box or cylinder, that do not require a mesh file. However, for more advanced designs, mesh files are necessary. The mesh file should be located in a directory calledmeshesthat you can create in your package folder,my_robot.
 
-（1）Createmeshesdirectory
+（1）Create meshes directory
 
 ```
 $ cd /home/workspace/catkin_ws/src/my_robot/
@@ -450,11 +450,11 @@ Gazebo allows for plugins that implement specific use-cases.
 Sensor and Actuators Plugins
 We will cover the use of three such plugins:
 
-A plugin for the camera sensor.
+- A plugin for the camera sensor.
 
-A plugin for the Hokuyo lidar sensor.
+- A plugin for the Hokuyo lidar sensor.
 
-A plugin for the wheel joints actuator.
+- A plugin for the wheel joints actuator.
 
 1. Add Plugins
 
@@ -615,8 +615,10 @@ Start by modifying therobot_description.launchfile. Open it and add these lines 
 
 Those elements add two nodes - the joint_state_publisher and the robot_state_publisher.
 
-joint_state_publisher: Publishes joint state messages for the robot, such as the angles for the non-fixed joints.
-robot_state_publisher: Publishes the robot's state to tf (transform tree). Your robot model has several frames corresponding to each link/joint. The robot_state_publisher publishes the 3D poses of all of these links. This offers a convenient and efficient advantage, especially for more complicated robots.
+- ```joint_state_publisher```: Publishes joint state messages for the robot, such as the angles for the non-fixed joints.
+- ```robot_state_publisher```: Publishes the robot's state to tf (transform tree). Your robot model has several frames corresponding to each link/joint. 
+
+ The -robot_state_publisher publishes the 3D poses of all of these links. This offers a convenient and efficient advantage, especially for more complicated robots.
 
 2. Modify world.launch
 
@@ -639,11 +641,11 @@ $ roslaunch my_robot world.launch
 
 Setup RViz to visualize the sensor readings. On the left side of RViz, under Displays:
 
-Select odom for fixed frame
-Click the Add button and
-add RobotModel and your robot model should load up in RViz.
-add Camera and select the Image topic that was defined in the camera Gazebo plugin
-add LaserScan and select the topic that was defined in the Hokuyo Gazebo plugin
+- Select odom for fixed frame
+- Click the Add button and
+- add RobotModel and your robot model should load up in RViz.
+- add Camera and select the Image topic that was defined in the camera Gazebo plugin
+- add LaserScan and select the topic that was defined in the Hokuyo Gazebo plugin
 
 5. Add Objects
 
@@ -744,7 +746,7 @@ As you can see, my robot’s initial position is outside of my world! You might 
 1. Package Nodes
 The ball_chaser package will have two C++ nodes: the drive_bot and process_image
 
-**drive_bot**: This server node will provide a ball_chaser/command_robotservice to drive the robot around by controlling its linear x and angular z velocities. The service will publish a message containing the velocities to the wheel joints.
+```drive_bot```: This server node will provide a ball_chaser/command_robotservice to drive the robot around by controlling its linear x and angular z velocities. The service will publish a message containing the velocities to the wheel joints.
 process_image: This client node will subscribe to the robot’s camera images and analyze each image to determine the position of the white ball. Once ball position is determined, the client node will request a service to drive the robot either left, right or forward.
 Now, follow along with the steps to set up ball_chaser.
 
@@ -776,7 +778,7 @@ $ catkin_make
 
 （1）ROS Service File
 
-Write theDriveToTarget.srvfile
+Write ```theDriveToTarget.srvfile```
 
   ```
 float64 linear_x
@@ -849,8 +851,7 @@ int main(int argc, char** argv)
     ros::spin();
 
     return 0;
-}
-  
+}  
   ```
   
 （4）Edit CMakeLists.txt
@@ -867,7 +868,8 @@ After you write the server node in C++, you’ll have to add the following depen
   
 - Add the ```add_executable```, ```target_link_libraries```, and ```add_dependencies``` dependency for your drive_bot.cppscript
 
-	```
+	
+```
 cmake_minimum_required(VERSION 2.8.3)
   
 project(ball_chaser)
@@ -899,7 +901,7 @@ find_package(catkin REQUIRED COMPONENTS
 	
 ## Generate services in the 'srv' folder
 
-	```
+
 add_service_files(
    FILES
    DriveToTarget.srv
@@ -1047,7 +1049,7 @@ Save the white ball model asmy_ballunder the/home/workspacedirectory. Then exit 
 
 Now that you are back in the Gazebo main world, you can click on “Insert” and drop the white ball anywhere in the scene.
   
-  7. Relaunch Nodes
+7. Relaunch Nodes
 
 Now that you modeled the white ball, relaunch the nodes insideworld.launch. Then verify that you can insert amy_ballanywhere inside your world.
 
@@ -1059,7 +1061,7 @@ Place the white ball anywhere outside of your building structure, so that the ro
   
 1. Write process_image.cpp
 
-  ```
+```
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -1149,13 +1151,13 @@ int main(int argc, char** argv)
     return 0;
 }
   
-  ```
+```
  
 2. Edit CMakeLists.txt
 
 In addition to all the dependencies you added earlier for drive_bot.cpp, these are the dependencies that you should add for process_image.cpp :
 
-  ```
+```
 Add add_executable
 Add target_link_libraries
 Add add_dependencies
@@ -1166,46 +1168,45 @@ target_link_libraries(process_image ${catkin_LIBRARIES})
   
 3. Build Package
 
-  ```
+```
 $ cd /home/workspace/catkin_ws/
 $ catkin_make
-  ```
+```
   
 4. Launch File
 
 Edit theball_chaser.launchfile
 
-  ```
+```
 <!-- The process_image node -->
   <node name="process_image" type="process_image" pkg="ball_chaser" output="screen">
-  </node>
-  
-  ```
+  </node>  
+```
   
 5. Test process_image
 
 （1）Launch the robot inside your world
 
-  ```
+```
 $ cd /home/workspace/catkin_ws/
 $ source devel/setup.bash
 $ roslaunch my_robot world.launch
-  ```
+```
   
 （2）Rundrive_botandprocess_image
 
-  ```
+```
 $ cd /home/workspace/catkin_ws/
 $ source devel/setup.bash
 $ roslaunch ball_chaser ball_chaser.launch
-  ```
+```
   
 （3）Visualize
 
-  ```
+```
 $ cd /home/workspace/catkin_ws/
 $ source devel/setup.bash
 $ rosrun rqt_image_view rqt_image_view
-  ```
+```
  ![image](https://user-images.githubusercontent.com/54982873/211188962-4ec1daef-ca02-4428-9e89-7643e497690b.png)
  
