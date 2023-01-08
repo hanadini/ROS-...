@@ -857,16 +857,17 @@ int main(int argc, char** argv)
 
 After you write the server node in C++, you’ll have to add the following dependencies:
 
-Add the add_compile_options for C++ 11 dependency, this step is optional and depends on your code
+- Add the ```add_compile_options``` for C++ 11 dependency, this step is optional and depends on your code
   
-Add the add_service_files dependency which defines the DriveToTarget.srv file
+- Add the ```add_service_files``` dependency which defines the DriveToTarget.srv file
   
-Add the generate_messages dependency
+- Add the ```generate_messages``` dependency
   
-Add include_directories dependency
+- Add ```include_directories``` dependency
   
-Add the add_executable, target_link_libraries, and add_dependencies dependency for your drive_bot.cppscript
-  
+- Add the ```add_executable```, ```target_link_libraries```, and ```add_dependencies``` dependency for your drive_bot.cppscript
+
+	```
 cmake_minimum_required(VERSION 2.8.3)
   
 project(ball_chaser)
@@ -892,48 +893,48 @@ find_package(catkin REQUIRED COMPONENTS
 )
 ################################################
 	
- #### Declare ROS messages, services and actions 
+ ## Declare ROS messages, services and actions ##
 	
 ################################################
 	
-#### Generate services in the 'srv' folder
+## Generate services in the 'srv' folder
 
 	```
 add_service_files(
    FILES
    DriveToTarget.srv
 )
-	```
-#### Generate added messages and services with any dependencies listed here
-	```
+	
+## Generate added messages and services with any dependencies listed here
+	
 generate_messages(
    DEPENDENCIES
    std_msgs
 )
-	```
-###################################
-	
-#### catkin specific configuration
 	
 ###################################
 	
-	```
+## catkin specific configuration ##
+	
+###################################
+	
+	
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ball_chaser
 #  CATKIN_DEPENDS message_generation roscpp std_msgs
 #  DEPENDS system_lib
 )
-	```
-###########
-	
-#### Build 
 	
 ###########
 	
-#### Specify additional locations of header files
-#### The package locations should be listed before other locations
-  ```
+## Build ##
+	
+###########
+	
+## Specify additional locations of header files
+## The package locations should be listed before other locations
+  
 	
 include_directories(
   
@@ -941,23 +942,23 @@ include_directories(
   
   ${catkin_INCLUDE_DIRS}
 )
-  ```
   
-#### Declare a C++ executable
+  
+## Declare a C++ executable
  
-  ```
+  
 add_executable(drive_bot src/drive_bot.cpp)
-```
+
   
-#### Add cmake target dependencies of the executable
+## Add cmake target dependencies of the executable
   
-```  
+  
 add_dependencies(drive_bot ball_chaser_generate_messages_cpp)
-```
+
   
-#### Specify libraries to link a library or executable target against
+## Specify libraries to link a library or executable target against
 	
- ``` 
+  
 target_link_libraries(drive_bot ${catkin_LIBRARIES})
  ```
   
